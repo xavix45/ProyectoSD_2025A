@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Protocolo
+namespace Cliente
 {
-    public class ASIGNACIONMESA
+    internal class Program
     {
+        static void Main(string[] args)
+        {
+        }
     }
 }

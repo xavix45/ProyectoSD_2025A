@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscrutinioGrafica", "EscrutinioGrafica\EscrutinioGrafica.csproj", "{AFA12C39-C1BA-4938-BE10-AE7FE2E30F3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocolo", "Protocolo\Protocolo.csproj", "{338B1115-51CC-45A6-A868-8A33E79335A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AFA12C39-C1BA-4938-BE10-AE7FE2E30F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFA12C39-C1BA-4938-BE10-AE7FE2E30F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFA12C39-C1BA-4938-BE10-AE7FE2E30F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{338B1115-51CC-45A6-A868-8A33E79335A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{338B1115-51CC-45A6-A868-8A33E79335A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{338B1115-51CC-45A6-A868-8A33E79335A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{338B1115-51CC-45A6-A868-8A33E79335A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

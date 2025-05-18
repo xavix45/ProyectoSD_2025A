@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Protocolo
 {
-    public class ASIGNACIONMESA
+    internal class Mesa
     {
     }
 }
