@@ -1,19 +1,27 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Protocolo
 {
     public class AsignacionMesa
     {
         private static Dictionary<string, Queue<int>> mesasDisponibles = new Dictionary<string, Queue<int>>()
-           {
-               { "Quito", new Queue<int>(new[] { 1, 2, 3 }) }
-           };
+        {
+            { "Quito", new Queue<int>(new[] { 1, 2, 3, 4, 5 }) },
+            { "Guayaquil", new Queue<int>(new[] { 6, 7, 8 }) },
+            { "Cuenca", new Queue<int>(new[] { 9, 10 }) }
+        };
 
         private static Dictionary<int, Mesa> mesasAsignadas = new Dictionary<int, Mesa>();
 
-        public static List<string> Candidatos { get; } = new List<string>() { "Alice", "Bob", "Charlie" };
+        public static List<string> Candidatos { get; } = new List<string>()
+        {
+            "Alice",
+            "Bob",
+            "Charlie",
+            "Diana",
+            "Eduardo"
+        };
 
         public static string Asignar(string fecha, string localidad)
         {
