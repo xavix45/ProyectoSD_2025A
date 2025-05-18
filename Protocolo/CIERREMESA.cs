@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Protocolo
 {
-    internal class CIERREMESA
+    public class CierreMesa
     {
+        public static string Cerrar(int numeroMesa)
+        {
+            var mesas = AsignacionMesa.GetMesasAsignadas();
+
+            if (!mesas.ContainsKey(numeroMesa))
+                return "ERROR: Mesa no encontrada";
+
+            var mesa = mesas[numeroMesa];
+
+            if (mesa.Cerrada)
+                return "CERRADA";
+
+            mesa.Cerrada = true;
+            return "OK";
+        }
     }
 }

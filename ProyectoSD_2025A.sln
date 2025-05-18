@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscrutinioGrafica", "Escrut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocolo", "Protocolo\Protocolo.csproj", "{338B1115-51CC-45A6-A868-8A33E79335A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServidorTCP", "Servidor\ServidorTCP.csproj", "{CB4F40F6-7AD7-45B2-A03F-EABBE93AF8A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClienteTCP", "Cliente\ClienteTCP.csproj", "{9C71F03D-FF85-4A81-AD0E-7DBE7D3BA4FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{338B1115-51CC-45A6-A868-8A33E79335A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{338B1115-51CC-45A6-A868-8A33E79335A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{338B1115-51CC-45A6-A868-8A33E79335A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB4F40F6-7AD7-45B2-A03F-EABBE93AF8A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB4F40F6-7AD7-45B2-A03F-EABBE93AF8A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB4F40F6-7AD7-45B2-A03F-EABBE93AF8A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB4F40F6-7AD7-45B2-A03F-EABBE93AF8A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C71F03D-FF85-4A81-AD0E-7DBE7D3BA4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C71F03D-FF85-4A81-AD0E-7DBE7D3BA4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C71F03D-FF85-4A81-AD0E-7DBE7D3BA4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C71F03D-FF85-4A81-AD0E-7DBE7D3BA4FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
