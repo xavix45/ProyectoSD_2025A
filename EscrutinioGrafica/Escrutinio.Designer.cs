@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnAsignacion = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnRegistroDatos = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -72,16 +72,18 @@
             this.btnAsignacion.TabIndex = 2;
             this.btnAsignacion.Text = "Asignación de mesa";
             this.btnAsignacion.UseVisualStyleBackColor = true;
+            this.btnAsignacion.Click += new System.EventHandler(this.btnAsignacion_Click);
             // 
-            // button2
+            // btnRegistroDatos
             // 
-            this.button2.Font = new System.Drawing.Font("Maiandra GD", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(182, 194);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(227, 39);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Registro de datos";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnRegistroDatos.Font = new System.Drawing.Font("Maiandra GD", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistroDatos.Location = new System.Drawing.Point(182, 194);
+            this.btnRegistroDatos.Name = "btnRegistroDatos";
+            this.btnRegistroDatos.Size = new System.Drawing.Size(227, 39);
+            this.btnRegistroDatos.TabIndex = 3;
+            this.btnRegistroDatos.Text = "Registro de datos";
+            this.btnRegistroDatos.UseVisualStyleBackColor = true;
+            this.btnRegistroDatos.Click += new System.EventHandler(this.btnRegistroDatos_Click);
             // 
             // button3
             // 
@@ -145,7 +147,7 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnRegistroDatos);
             this.Controls.Add(this.btnAsignacion);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -165,7 +167,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnAsignacion;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnRegistroDatos;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;

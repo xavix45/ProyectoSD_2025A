@@ -16,5 +16,17 @@ namespace EscrutinioGrafica
         {
             InitializeComponent();
         }
+
+        private void btnAsignacion_Click(object sender, EventArgs e)
+        {
+            AsignacionMesaForm asignacionMesa = new AsignacionMesaForm();
+            asignacionMesa.ShowDialog();
+        }
+
+        private void btnRegistroDatos_Click(object sender, EventArgs e)
+        {
+            RegistroDatosForm registro = new RegistroDatosForm();
+            registro.ShowDialog();
+        }
     }
 }
