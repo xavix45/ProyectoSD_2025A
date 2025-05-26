@@ -32,7 +32,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnAsignacion = new System.Windows.Forms.Button();
             this.btnRegistroDatos = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnCerrarMesa = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -85,15 +85,16 @@
             this.btnRegistroDatos.UseVisualStyleBackColor = true;
             this.btnRegistroDatos.Click += new System.EventHandler(this.btnRegistroDatos_Click);
             // 
-            // button3
+            // btnCerrarMesa
             // 
-            this.button3.Font = new System.Drawing.Font("Maiandra GD", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(182, 279);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(223, 39);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Cierre de mesa";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnCerrarMesa.Font = new System.Drawing.Font("Maiandra GD", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCerrarMesa.Location = new System.Drawing.Point(182, 279);
+            this.btnCerrarMesa.Name = "btnCerrarMesa";
+            this.btnCerrarMesa.Size = new System.Drawing.Size(223, 39);
+            this.btnCerrarMesa.TabIndex = 4;
+            this.btnCerrarMesa.Text = "Cierre de mesa";
+            this.btnCerrarMesa.UseVisualStyleBackColor = true;
+            this.btnCerrarMesa.Click += new System.EventHandler(this.btnCerrarMesa_Click);
             // 
             // pictureBox3
             // 
@@ -146,7 +147,7 @@
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnCerrarMesa);
             this.Controls.Add(this.btnRegistroDatos);
             this.Controls.Add(this.btnAsignacion);
             this.Controls.Add(this.label2);
@@ -168,7 +169,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnAsignacion;
         private System.Windows.Forms.Button btnRegistroDatos;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnCerrarMesa;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;

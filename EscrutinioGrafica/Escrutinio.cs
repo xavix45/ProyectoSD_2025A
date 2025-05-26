@@ -28,5 +28,11 @@ namespace EscrutinioGrafica
             RegistroDatosForm registro = new RegistroDatosForm();
             registro.ShowDialog();
         }
+
+        private void btnCerrarMesa_Click(object sender, EventArgs e)
+        {
+            CerrarMesaForm cerrar = new CerrarMesaForm();
+            cerrar.ShowDialog();
+        }
     }
 }

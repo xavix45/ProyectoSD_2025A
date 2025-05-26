@@ -52,6 +52,12 @@
     <Compile Include="AsignacionMesaForm.Designer.cs">
       <DependentUpon>AsignacionMesaForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CerrarMesaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CerrarMesaForm.Designer.cs">
+      <DependentUpon>CerrarMesaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Escrutinio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,9 @@
     </Compile>
     <EmbeddedResource Include="AsignacionMesaForm.resx">
       <DependentUpon>AsignacionMesaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CerrarMesaForm.resx">
+      <DependentUpon>CerrarMesaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Escrutinio.resx">
       <DependentUpon>Escrutinio.cs</DependentUpon>
