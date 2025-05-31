@@ -61,16 +61,48 @@ namespace Negocio
         }
 
         // Obtener estadísticas generales por mesa
-        public Mesa ObtenerEstadisticasMesa(int idMesa)
+        public ReporteMesaDTO ObtenerEstadisticasMesa(int idMesa)
         {
-            // Aquí se podría llamar a un método DAL para obtener datos complejos
-            // Por simplicidad, supondremos que tienes un método que devuelve datos mapeados
-            // Ejemplo:
-            // return dal.ObtenerMesaCompleta(idMesa);
+            // Llamar al DAL para obtener la mesa completa
+            var datosMesa = dal.ObtenerDatosMesaCompleta(idMesa);
+            if (datosMesa == null)
+                return null;
 
-            throw new NotImplementedException("Implementar método para obtener estadísticas desde DAL");
+            var reporte = new ReporteMesaDTO
+            {
+                IdMesa = datosMesa.Mesa.IdMesa,
+                NumeroMesa = datosMesa.Mesa.NumeroMesa,
+                Fecha = datosMesa.Mesa.FechaAsignada,
+                Localidad = datosMesa.Mesa.Localidad.Nombre,
+                Votantes = datosMesa.Mesa.Votantes,
+                Blancos = datosMesa.VotosExtras.Blancos,
+                Nulos = datosMesa.VotosExtras.Nulos,
+                Ausentes = datosMesa.VotosExtras.Ausentes,
+                TotalVotos = 0,
+                VotosPorCandidato = new Dictionary<string, int>()
+            };
+
+            int sumaVotos = 0;
+            foreach (var mc in datosMesa.Mesa.MesaCandidatos)
+            {
+                reporte.VotosPorCandidato.Add(mc.Candidato.Nombre, mc.Votos);
+                sumaVotos += mc.Votos;
+            }
+            reporte.TotalVotos = sumaVotos;
+
+            return reporte;
         }
 
-        
+        // Obtener todas las localidades
+        public List<Localidad> ObtenerLocalidades()
+        {
+            return dal.ObtenerLocalidades();
+        }
+
+        // Obtener todos los candidatos
+        public List<Candidato> ObtenerCandidatos()
+        {
+            return dal.ObtenerCandidatos();
+        }
     }
 }

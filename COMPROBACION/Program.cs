@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Negocio;
 using Entidades;
 
@@ -16,27 +13,27 @@ namespace COMPROBACION
         {
             Console.WriteLine("=== Sistema de Escrutinio Electoral - Pruebas ===\n");
 
-            // 1. Mostrar localidades existentes
-          //  Console.WriteLine("Localidades disponibles:");
-          //  var localidades = negocio.ObtenerLocalidades();
-          //  foreach (var loc in localidades)
-          //  {
-         //       Console.WriteLine($"- {loc.IdLocalidad}: {loc.Nombre}");
-          //  }
-         //   Console.WriteLine();
+            // Obtener localidades
+            Console.WriteLine("Localidades disponibles:");
+            var localidades = negocio.ObtenerLocalidades();
+            foreach (var loc in localidades)
+            {
+                Console.WriteLine($"- {loc.IdLocalidad}: {loc.Nombre}");
+            }
+            Console.WriteLine();
 
-            // 2. Mostrar candidatos existentes
-       //     Console.WriteLine("Candidatos disponibles:");
-            //var candidatos = negocio.RegistrarDatos();
-            //foreach (var cand in candidatos)
-            //{
-            //    Console.WriteLine($"- {cand.IdCandidato}: {cand.Nombre}");
-            //}
-            //Console.WriteLine();
+            // Obtener candidatos
+            Console.WriteLine("Candidatos disponibles:");
+            var candidatos = negocio.ObtenerCandidatos();
+            foreach (var cand in candidatos)
+            {
+                Console.WriteLine($"- {cand.IdCandidato}: {cand.Nombre}");
+            }
+            Console.WriteLine();
 
-            // 3. Asignar mesa a localidad y fecha
+            // Asignar mesa a localidad y fecha
             Console.Write("Ingrese localidad para asignar mesa: ");
-            string localidad = Console.ReadLine();
+            string localidadInput = Console.ReadLine();
 
             Console.Write("Ingrese fecha (yyyy-MM-dd): ");
             DateTime fecha;
@@ -45,7 +42,7 @@ namespace COMPROBACION
                 Console.Write("Fecha inválida, intente nuevamente (yyyy-MM-dd): ");
             }
 
-            var (resultadoAsignacion, mesaAsignada) = negocio.AsignarMesa(fecha, localidad);
+            var (resultadoAsignacion, mesaAsignada) = negocio.AsignarMesa(fecha, localidadInput);
 
             if (resultadoAsignacion == "OK")
             {
@@ -59,12 +56,12 @@ namespace COMPROBACION
             }
             Console.WriteLine();
 
-            // 4. Registrar votos para la mesa asignada
-            //Console.WriteLine("Ingrese votos por candidato separados por coma, en orden:");
-          //  for (int i = 0; i < candidatos.Count; i++)
-          //  {
-          //      Console.WriteLine($"{i + 1}. {candidatos[i].Nombre}");
-         //   }
+            // Ingresar votos
+            Console.WriteLine("Ingrese votos por candidato separados por coma, en orden:");
+            for (int i = 0; i < candidatos.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {candidatos[i].Nombre}");
+            }
             Console.Write("Votos (ejemplo: 10,20,15,5,0): ");
             string votosStr = Console.ReadLine();
 
@@ -92,18 +89,15 @@ namespace COMPROBACION
             Console.WriteLine($"Resultado registro votos: {resultadoRegistro}");
             Console.WriteLine();
 
-            // 5. Obtener y mostrar estadísticas de la mesa
+            // Obtener estadísticas de la mesa
             var reporte = negocio.ObtenerEstadisticasMesa(mesaAsignada.IdMesa);
             if (reporte != null)
             {
                 Console.WriteLine("=== Estadísticas de la Mesa ===");
                 Console.WriteLine($"Mesa Nº: {reporte.NumeroMesa}");
                 Console.WriteLine($"Localidad: {reporte.Localidad}");
-                Console.WriteLine($"Fecha: {reporte.FechaAsignada:yyyy-MM-dd}");
+                Console.WriteLine($"Fecha: {reporte.Fecha:yyyy-MM-dd}");
                 Console.WriteLine($"Votantes: {reporte.Votantes}");
-              
-             
-             
             }
             else
             {
@@ -111,7 +105,7 @@ namespace COMPROBACION
             }
             Console.WriteLine();
 
-            // 6. Cerrar la mesa
+            // Cerrar la mesa
             Console.Write("¿Desea cerrar la mesa? (S/N): ");
             string cerrar = Console.ReadLine().Trim().ToUpper();
             if (cerrar == "S")
