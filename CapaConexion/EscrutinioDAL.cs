@@ -316,5 +316,125 @@ namespace CapaConexion
                 conexion.CerrarConexion();
             }
         }
+
+        public List<Mesa> ObtenerMesasPorLocalidad(int idLocalidad)
+        {
+            List<Mesa> mesas = new List<Mesa>();
+            try
+            {
+                SqlConnection conn = conexion.AbrirConexion();
+                comando.Connection = conn;
+                comando.Parameters.Clear();
+
+                string consulta = @"
+                SELECT 
+                m.IdMesa, m.FechaAsignada, m.NumeroMesa, m.Votantes, m.Cerrada,
+                l.IdLocalidad, l.Nombre
+                FROM Mesa m
+                INNER JOIN Localidad l ON m.IdLocalidad = l.IdLocalidad
+                WHERE l.IdLocalidad = @IdLocalidad";
+
+
+                comando.CommandText = consulta;
+                comando.CommandType = System.Data.CommandType.Text;
+                comando.Parameters.AddWithValue("@IdLocalidad", idLocalidad);
+
+                using (SqlDataReader reader = comando.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Mesa mesa = new Mesa
+                        {
+                            IdMesa = reader.GetInt32(0),
+                            FechaAsignada = reader.GetDateTime(1),
+                            NumeroMesa = reader.GetInt32(2),
+                            Votantes = reader.GetInt32(3),
+                            Cerrada = reader.GetBoolean(4),
+                            Localidad = new Localidad
+                            {
+                                IdLocalidad = reader.GetInt32(5),
+                                Nombre = reader.GetString(6)
+                            }
+                        };
+
+                        mesas.Add(mesa);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally 
+            {
+                conexion.CerrarConexion();
+            }
+      
+            return mesas;
         }
+
+        public void GuardarOActualizarVotos(int idMesa, int idCandidato, int votosValidos, int blancos, int nulos, int ausentes)
+        {
+            try
+            {
+                comando.Connection = conexion.AbrirConexion();
+                comando.Parameters.Clear();
+
+                // 1. MesaCandidato
+                string sqlMesaCandidato = @"
+            IF EXISTS (SELECT 1 FROM MesaCandidato WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato)
+            BEGIN
+                UPDATE MesaCandidato
+                SET Votos = @VotosValidos
+                WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato
+            END
+            ELSE
+            BEGIN
+                INSERT INTO MesaCandidato (IdMesa, IdCandidato, Votos)
+                VALUES (@IdMesa, @IdCandidato, @VotosValidos)
+            END";
+
+                comando.CommandText = sqlMesaCandidato;
+                comando.CommandType = CommandType.Text;
+                comando.Parameters.AddWithValue("@IdMesa", idMesa);
+                comando.Parameters.AddWithValue("@IdCandidato", idCandidato);
+                comando.Parameters.AddWithValue("@VotosValidos", votosValidos);
+                comando.ExecuteNonQuery();
+
+                // 2. VotosExtras
+                comando.Parameters.Clear(); // ← LIMPIA los parámetros antes de la segunda consulta
+
+                string sqlVotosExtras = @"
+            IF EXISTS (SELECT 1 FROM VotosExtras WHERE IdMesa = @IdMesa)
+            BEGIN
+                UPDATE VotosExtras
+                SET Blancos = @Blancos, Nulos = @Nulos, Ausentes = @Ausentes
+                WHERE IdMesa = @IdMesa
+            END
+            ELSE
+            BEGIN
+                INSERT INTO VotosExtras (IdMesa, Blancos, Nulos, Ausentes)
+                VALUES (@IdMesa, @Blancos, @Nulos, @Ausentes)
+            END";
+
+                comando.CommandText = sqlVotosExtras;
+                comando.Parameters.AddWithValue("@IdMesa", idMesa);
+                comando.Parameters.AddWithValue("@Blancos", blancos);
+                comando.Parameters.AddWithValue("@Nulos", nulos);
+                comando.Parameters.AddWithValue("@Ausentes", ausentes);
+                comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al guardar votos: " + ex.Message);
+            }
+            finally
+            {
+                conexion.CerrarConexion();
+            }
+        }
+
+
     }
+}
+

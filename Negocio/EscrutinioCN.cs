@@ -104,5 +104,41 @@ namespace Negocio
         {
             return dal.ObtenerCandidatos();
         }
+
+        public List<Mesa> ObtenerMesasPorLocalidad(int idLocalidad) 
+        {
+            return dal.ObtenerMesasPorLocalidad(idLocalidad);
+        }
+
+        public ReporteMesaDTO ObtenerVotosMesa(int idMesa)
+        {
+            // Llamar al DAL para obtener la mesa completa
+            var datosMesa = dal.ObtenerDatosMesaCompleta(idMesa);
+            if (datosMesa == null)
+                return null;
+
+            var reporte = new ReporteMesaDTO
+            {
+                IdMesa = datosMesa.Mesa.IdMesa,
+                NumeroMesa = datosMesa.Mesa.NumeroMesa,
+                Fecha = datosMesa.Mesa.FechaAsignada,
+                Localidad = datosMesa.Mesa.Localidad.Nombre,
+                Votantes = datosMesa.Mesa.Votantes,
+                Blancos = datosMesa.VotosExtras.Blancos,
+                Nulos = datosMesa.VotosExtras.Nulos,
+                Ausentes = datosMesa.VotosExtras.Ausentes,
+                TotalVotos = 0,
+                VotosPorCandidato = new Dictionary<string, int>()
+            };
+
+            return reporte;
+        }
+
+
+        public void GuardarOActualizarVotos(int idMesa, int idCandidato, int votosValidos, int blancos, int nulos, int ausentes) 
+        {
+            dal.GuardarOActualizarVotos(idMesa, idCandidato, votosValidos, blancos, nulos, ausentes);
+        }
+
     }
 }

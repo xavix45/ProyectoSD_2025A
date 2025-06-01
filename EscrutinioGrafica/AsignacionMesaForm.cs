@@ -2,6 +2,7 @@
 using Negocio;
 using Entidades;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace EscrutinioGrafica
 {
@@ -10,6 +11,7 @@ namespace EscrutinioGrafica
         public AsignacionMesaForm()
         {
             InitializeComponent();
+            dtpFecha.MaxDate = DateTime.Now;
         }
 
         // Cambiar el nombre del objeto para evitar conflictos con el espacio de nombres 'Negocio'
@@ -17,21 +19,14 @@ namespace EscrutinioGrafica
 
         private void CargarLocalidades()
         {
+
             // Obtener las localidades desde la capa de negocio  
-            var localidades = escrutinioNegocio.ObtenerLocalidades();
+            List<Localidad> localidades = escrutinioNegocio.ObtenerLocalidades();
 
             // Limpiar el ComboBox antes de llenarlo  
-            cmbLocalidad.Items.Clear();
+            cmbLocalidad.DataSource = null;
+            cmbLocalidad.DataSource = localidades;
 
-            // Llenar el ComboBox con los nombres de las localidades  
-            foreach (var localidad in localidades)
-            {
-                cmbLocalidad.Items.Add(localidad.Nombre); // Mostrar solo el nombre de la localidad  
-            }
-
-            // Opcional: Si quieres seleccionar el primer elemento por defecto  
-            if (cmbLocalidad.Items.Count > 0)
-                cmbLocalidad.SelectedIndex = 0;
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
@@ -46,7 +41,35 @@ namespace EscrutinioGrafica
 
         private void AsignacionMesaForm_Load(object sender, EventArgs e)
         {
+            CargarLocalidades();
+        }
 
+        private void dtpFecha_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAsignacionMesa_Click(object sender, EventArgs e)
+        {
+            Localidad localidad = cmbLocalidad.SelectedItem as Localidad;
+            DateTime fecha = dtpFecha.Value.Date;
+            var (resultadoAsignacion, mesaAsignada) = escrutinioNegocio.AsignarMesa(fecha, localidad.Nombre);
+            if (resultadoAsignacion == "OK")
+            {
+                MessageBox.Show("Mesa asignada correctamente:", "Asignación de mesa");
+                txtNumeroMesa.Text = mesaAsignada.NumeroMesa.ToString();
+                txtVotantesAsignados.Text = mesaAsignada.Votantes.ToString();
+                lstCandidatos.Items.Clear();
+                var candidatos = escrutinioNegocio.ObtenerCandidatos();
+                lstCandidatos.DataSource = null;
+                lstCandidatos.DataSource = candidatos;
+
+            }
+            else
+            {
+                MessageBox.Show($"Error al asignar mesa: {resultadoAsignacion}", "Asignación de mesa");
+                return;
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Entidades
 
         public override string ToString()
         {
-            return $"Localidad[Id={IdLocalidad}, Nombre={Nombre}]";
+            return $"{Nombre}";
         }
     }
 }

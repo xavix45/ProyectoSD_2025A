@@ -16,7 +16,7 @@ namespace EscrutinioGrafica
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AsignacionMesaForm());
+            Application.Run(new Escrutinio());
         }
     }
 }

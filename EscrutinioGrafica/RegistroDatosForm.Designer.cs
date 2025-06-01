@@ -31,11 +31,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbLocalidad = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.nudNumeroMesa = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbCandidato = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.txtVotantes = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.nudVotosValidos = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -45,10 +44,13 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnVaciar = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.nudNumeroMesa)).BeginInit();
+            this.cmbNumeroMesa = new System.Windows.Forms.ComboBox();
+            this.nudAusentes = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosValidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosNulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosBlancos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAusentes)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -63,21 +65,11 @@
             // cmbLocalidad
             // 
             this.cmbLocalidad.FormattingEnabled = true;
-            this.cmbLocalidad.Items.AddRange(new object[] {
-            "Pichincha, Quito",
-            "Guayas, Guayaquil",
-            "Azuay, Cuenca",
-            "Loja, Loja",
-            "Imbabura, Ibarra",
-            "Cotopaxi, Cotopaxi",
-            "Tunguragua, Ambato",
-            "Manabí, Portoviejo",
-            "Esmeraldas, Esmeraldas",
-            "Los Ríos, Babahoyo"});
             this.cmbLocalidad.Location = new System.Drawing.Point(106, 29);
             this.cmbLocalidad.Name = "cmbLocalidad";
             this.cmbLocalidad.Size = new System.Drawing.Size(230, 21);
             this.cmbLocalidad.TabIndex = 6;
+            this.cmbLocalidad.SelectedIndexChanged += new System.EventHandler(this.cmbLocalidad_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -87,13 +79,6 @@
             this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "Número de mesa:";
-            // 
-            // nudNumeroMesa
-            // 
-            this.nudNumeroMesa.Location = new System.Drawing.Point(264, 69);
-            this.nudNumeroMesa.Name = "nudNumeroMesa";
-            this.nudNumeroMesa.Size = new System.Drawing.Size(72, 20);
-            this.nudNumeroMesa.TabIndex = 9;
             // 
             // label3
             // 
@@ -111,6 +96,7 @@
             this.cmbCandidato.Name = "cmbCandidato";
             this.cmbCandidato.Size = new System.Drawing.Size(230, 21);
             this.cmbCandidato.TabIndex = 11;
+            this.cmbCandidato.SelectedIndexChanged += new System.EventHandler(this.cmbCandidato_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -121,14 +107,14 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "Número de electores por mesa:";
             // 
-            // label5
+            // txtVotantes
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(294, 100);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "numero";
+            this.txtVotantes.AutoSize = true;
+            this.txtVotantes.Location = new System.Drawing.Point(294, 100);
+            this.txtVotantes.Name = "txtVotantes";
+            this.txtVotantes.Size = new System.Drawing.Size(42, 13);
+            this.txtVotantes.TabIndex = 13;
+            this.txtVotantes.Text = "numero";
             // 
             // label6
             // 
@@ -180,16 +166,17 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(37, 305);
+            this.btnGuardar.Location = new System.Drawing.Point(36, 319);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 20;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnVaciar
             // 
-            this.btnVaciar.Location = new System.Drawing.Point(153, 305);
+            this.btnVaciar.Location = new System.Drawing.Point(152, 319);
             this.btnVaciar.Name = "btnVaciar";
             this.btnVaciar.Size = new System.Drawing.Size(75, 23);
             this.btnVaciar.TabIndex = 21;
@@ -198,7 +185,7 @@
             // 
             // btnCerrar
             // 
-            this.btnCerrar.Location = new System.Drawing.Point(261, 305);
+            this.btnCerrar.Location = new System.Drawing.Point(260, 319);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(75, 23);
             this.btnCerrar.TabIndex = 22;
@@ -206,11 +193,39 @@
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // cmbNumeroMesa
+            // 
+            this.cmbNumeroMesa.FormattingEnabled = true;
+            this.cmbNumeroMesa.Location = new System.Drawing.Point(282, 69);
+            this.cmbNumeroMesa.Name = "cmbNumeroMesa";
+            this.cmbNumeroMesa.Size = new System.Drawing.Size(53, 21);
+            this.cmbNumeroMesa.TabIndex = 23;
+            this.cmbNumeroMesa.SelectedIndexChanged += new System.EventHandler(this.cmbNumeroMesa_SelectedIndexChanged);
+            // 
+            // nudAusentes
+            // 
+            this.nudAusentes.Location = new System.Drawing.Point(264, 278);
+            this.nudAusentes.Name = "nudAusentes";
+            this.nudAusentes.Size = new System.Drawing.Size(72, 20);
+            this.nudAusentes.TabIndex = 25;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(34, 280);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Ausentes:";
+            // 
             // RegistroDatosForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 365);
+            this.Controls.Add(this.nudAusentes);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.cmbNumeroMesa);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.btnVaciar);
             this.Controls.Add(this.btnGuardar);
@@ -220,20 +235,19 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.nudVotosValidos);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtVotantes);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbCandidato);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.nudNumeroMesa);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbLocalidad);
             this.Name = "RegistroDatosForm";
             this.Text = "RegistroDatos";
-            ((System.ComponentModel.ISupportInitialize)(this.nudNumeroMesa)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosValidos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosNulos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosBlancos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAusentes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -244,11 +258,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbLocalidad;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nudNumeroMesa;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbCandidato;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label txtVotantes;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown nudVotosValidos;
         private System.Windows.Forms.Label label7;
@@ -258,5 +271,8 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnVaciar;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.ComboBox cmbNumeroMesa;
+        private System.Windows.Forms.NumericUpDown nudAusentes;
+        private System.Windows.Forms.Label label5;
     }
 }
