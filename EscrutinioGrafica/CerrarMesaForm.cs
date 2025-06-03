@@ -42,27 +42,53 @@ namespace EscrutinioGrafica
         private void btnCerrarMesa_Click(object sender, EventArgs e)
         {
             Mesa mesa = cmbNumeroMesa.SelectedItem as Mesa;
-            if (!escrutinioCN.EstaMesaCerrada(mesa.IdMesa))
+            if (mesa == null)
             {
+                MessageBox.Show("Seleccione una mesa válida.", "Cierre de mesa");
+                return;
+            }
 
-                DialogResult resultado = MessageBox.Show("¿Seguro quieres cerrar la mesa?", "Cierre de mesa", MessageBoxButtons.OKCancel);
-                if (resultado == DialogResult.OK)
+            // Verificar si la mesa ya está cerrada
+            if (escrutinioCN.EstaMesaCerrada(mesa.IdMesa))
+            {
+                MessageBox.Show("Esta mesa ya está cerrada.", "Cierre de mesa");
+                return;
+            }
+
+            // Confirmar con el usuario
+            DialogResult resultado = MessageBox.Show("¿Seguro quieres cerrar la mesa?", "Cierre de mesa", MessageBoxButtons.OKCancel);
+            if (resultado != DialogResult.OK)
+                return;
+
+            try
+            {
+                // Intentar cerrar la mesa, la función debe devolver string con resultado (OK, ERROR, CERRADA)
+                string respuesta = escrutinioCN.CerrarMesa(mesa.IdMesa);
+
+                if (respuesta == "OK")
                 {
-                    escrutinioCN.CerrarMesa(mesa.IdMesa);
-                    MessageBox.Show("Esta mesa se cerro correctamente", "Cierre de mesa");
-                    return;
+                    MessageBox.Show("La mesa se cerró correctamente.", "Cierre de mesa");
+                    // Aquí puedes actualizar UI, recargar lista, etc.
+                }
+                else if (respuesta == "CERRADA")
+                {
+                    MessageBox.Show("La mesa ya estaba cerrada previamente.", "Cierre de mesa");
+                }
+                else if (respuesta.StartsWith("ERROR"))
+                {
+                    MessageBox.Show($"No se pudo cerrar la mesa: {respuesta}", "Error");
                 }
                 else
                 {
-                    return;
+                    MessageBox.Show($"Respuesta inesperada del servidor: {respuesta}", "Error");
                 }
             }
-            else 
+            catch (Exception ex)
             {
-                MessageBox.Show("Esta ya mesa esta cerrada", "Cierre de mesa");
-                return;
-            }  
+                MessageBox.Show($"Error al cerrar la mesa: {ex.Message}", "Error");
+            }
         }
+
 
         private void cargarLocalidad()
         {

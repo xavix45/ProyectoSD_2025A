@@ -106,33 +106,41 @@ namespace CapaConexion
 
         // Método para cerrar mesa - llama al procedimiento CerrarMesa
         public string CerrarMesa(int idMesa)
+        {
+            string resultado = "";
+            ConexionBD conexion = new ConexionBD();
+
+            try
             {
-                string resultado = "";
-                try
+                using (SqlConnection conn = conexion.AbrirConexion())
                 {
-                    comando.CommandText = "CerrarMesa";
-                    comando.CommandType = CommandType.StoredProcedure;
-                    comando.Parameters.Clear();
+                    using (SqlCommand comando = new SqlCommand("CerrarMesa", conn))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
 
-                    comando.Parameters.AddWithValue("@IdMesa", idMesa);
+                        comando.Parameters.Clear();
+                        comando.Parameters.AddWithValue("@IdMesa", idMesa);
 
-                    var paramRespuesta = new SqlParameter("@Respuesta", SqlDbType.NVarChar, 10) { Direction = ParameterDirection.Output };
-                    comando.Parameters.Add(paramRespuesta);
+                        var paramRespuesta = new SqlParameter("@Respuesta", SqlDbType.NVarChar, 10)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        comando.Parameters.Add(paramRespuesta);
 
-                    comando.ExecuteNonQuery();
+                        comando.ExecuteNonQuery();
 
-                    resultado = paramRespuesta.Value.ToString();
+                        resultado = paramRespuesta.Value.ToString();
+                    }
                 }
-                catch (SqlException ex)
-                {
-                    resultado = "ERROR: " + ex.Message;
-                }
-                finally
-                {
-                    conexion.CerrarConexion();
-                }
-                return resultado;
             }
+            catch (SqlException ex)
+            {
+                resultado = "ERROR: " + ex.Message;
+            }
+
+            return resultado;
+        }
+
 
 
         public List<Localidad> ObtenerLocalidades()
