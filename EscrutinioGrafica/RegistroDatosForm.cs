@@ -64,22 +64,27 @@ namespace EscrutinioGrafica
         {
             int idMesa = ((Mesa)cmbNumeroMesa.SelectedItem).IdMesa;
             int idCandidato = ((Candidato)cmbCandidato.SelectedItem).IdCandidato;
-            int votosTotales = escrutinioNegocio.ObtenerEstadisticasMesa(idMesa).TotalVotos;
-            if (votosTotales <= ((Mesa)cmbNumeroMesa.SelectedItem).Votantes)
+            if (!escrutinioNegocio.EstaMesaCerrada(idMesa))
             {
-                int votosValidos = (int)nudVotosValidos.Value;
-                int blancos = (int)nudVotosBlancos.Value;
-                int nulos = (int)nudVotosNulos.Value;
-                int ausentes = (int)nudAusentes.Value;
+                
+                int votosTotales = escrutinioNegocio.ObtenerEstadisticasMesa(idMesa).TotalVotos;
+                if (votosTotales <= ((Mesa)cmbNumeroMesa.SelectedItem).Votantes)
+                {
+                    int votosValidos = (int)nudVotosValidos.Value;
+                    int blancos = (int)nudVotosBlancos.Value;
+                    int nulos = (int)nudVotosNulos.Value;
+                    int ausentes = (int)nudAusentes.Value;
 
-                escrutinioNegocio.GuardarOActualizarVotos(idMesa, idCandidato, votosValidos, blancos, nulos, ausentes);
-                MessageBox.Show("Votos registrados correctamente.");
+                    escrutinioNegocio.GuardarOActualizarVotos(idMesa, idCandidato, votosValidos, blancos, nulos, ausentes);
+                    MessageBox.Show("Votos registrados correctamente.");
+                }
+                else
+                {
+                    MessageBox.Show("El número de votos no coincide con los votantes regsitrados");
+                    return;
+                }
             }
-            else 
-            {
-                MessageBox.Show("El número de votos no coincide con los votantes regsitrados");
-                return;
-            }
+            
         }
 
         private void cmbCandidato_SelectedIndexChanged(object sender, EventArgs e)
@@ -87,21 +92,11 @@ namespace EscrutinioGrafica
             Candidato candidato = cmbCandidato.SelectedItem as Candidato;
             Mesa mesa = cmbNumeroMesa.SelectedItem as Mesa;
 
-            if (candidato == null || mesa == null)
-                return;           
+            int votos = escrutinioNegocio.ObtenerVotosValidos(mesa.IdMesa, candidato.IdCandidato);
 
-            // Buscar el objeto MesaCandidato correspondiente al candidato
-            MesaCandidato mesaCandidato = mesa.MesaCandidatos
-                .FirstOrDefault(mc => mc.IdCandidato == candidato.IdCandidato);
 
-            if (mesaCandidato != null)
-            {
-                nudVotosValidos.Value = mesaCandidato.Votos;
-            }
-            else
-            {
-                nudVotosValidos.Value = 0; // Si no hay votos registrados
-            }
+             nudVotosValidos.Value = votos;
+
         }
 
         private void cmbNumeroMesa_SelectedIndexChanged(object sender, EventArgs e)

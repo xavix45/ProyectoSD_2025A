@@ -140,5 +140,15 @@ namespace Negocio
             dal.GuardarOActualizarVotos(idMesa, idCandidato, votosValidos, blancos, nulos, ausentes);
         }
 
+        public bool EstaMesaCerrada(int idMesa) 
+        {
+            return dal.EstaMesaCerrada(idMesa);
+        }
+
+        public int ObtenerVotosValidos(int idMesa, int idCandidato) 
+        {
+            return dal.ObtenerVotosValidos(idMesa, idCandidato);
+        }
+
     }
 }

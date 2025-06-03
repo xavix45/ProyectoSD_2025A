@@ -434,6 +434,80 @@ namespace CapaConexion
             }
         }
 
+        public bool EstaMesaCerrada(int idMesa)
+        {
+            bool cerrada = false;
+
+            try
+            {
+                
+                comando.Connection = conexion.AbrirConexion();
+                comando.Parameters.Clear();
+
+                string consulta = "SELECT Cerrada FROM Mesa WHERE IdMesa = @IdMesa";
+
+                comando.CommandText = consulta;
+                comando.CommandType = CommandType.Text;
+                comando.Parameters.AddWithValue("@IdMesa", idMesa);
+                object resultado = comando.ExecuteScalar();
+
+                if (resultado != null && resultado != DBNull.Value)
+                {
+                    cerrada = Convert.ToBoolean(resultado);
+                }
+                    
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al verificar si la mesa está cerrada: " + ex.Message);
+                // Puedes lanzar la excepción si deseas manejarla arriba
+                // throw;
+            }
+            finally 
+            {
+                conexion.CerrarConexion();
+            }
+
+            return cerrada;
+        }
+
+        public int ObtenerVotosValidos(int idMesa, int idCandidato)
+        {
+            int votos = 0;
+
+            try
+            {
+                comando.Connection = conexion.AbrirConexion();
+                comando.Parameters.Clear();
+
+                string consulta = "SELECT Votos FROM MesaCandidato WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato";
+                comando.CommandText = consulta;
+                comando.CommandType = CommandType.Text;
+
+                comando.Parameters.AddWithValue("@IdMesa", idMesa);
+                comando.Parameters.AddWithValue("@IdCandidato", idCandidato);
+
+                object resultado = comando.ExecuteScalar();
+
+                if (resultado != null && resultado != DBNull.Value)
+                {
+                    votos = Convert.ToInt32(resultado);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al obtener los votos válidos: " + ex.Message);
+                // throw; // Descomenta si quieres propagar el error
+            }
+            finally
+            {
+                conexion.CerrarConexion();
+            }
+
+            return votos;
+        }
+
 
     }
 }

@@ -28,21 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.nudNumeroMesa = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbLocalidad = new System.Windows.Forms.ComboBox();
             this.btnCerrarMesa = new System.Windows.Forms.Button();
             this.btnCerrarVentana = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.nudNumeroMesa)).BeginInit();
+            this.cmbNumeroMesa = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // nudNumeroMesa
-            // 
-            this.nudNumeroMesa.Location = new System.Drawing.Point(251, 62);
-            this.nudNumeroMesa.Name = "nudNumeroMesa";
-            this.nudNumeroMesa.Size = new System.Drawing.Size(72, 20);
-            this.nudNumeroMesa.TabIndex = 13;
             // 
             // label1
             // 
@@ -80,6 +72,7 @@
             this.cmbLocalidad.Name = "cmbLocalidad";
             this.cmbLocalidad.Size = new System.Drawing.Size(230, 21);
             this.cmbLocalidad.TabIndex = 10;
+            this.cmbLocalidad.SelectedIndexChanged += new System.EventHandler(this.cmbLocalidad_SelectedIndexChanged);
             // 
             // btnCerrarMesa
             // 
@@ -89,6 +82,7 @@
             this.btnCerrarMesa.TabIndex = 14;
             this.btnCerrarMesa.Text = "Cerrar mesa";
             this.btnCerrarMesa.UseVisualStyleBackColor = true;
+            this.btnCerrarMesa.Click += new System.EventHandler(this.btnCerrarMesa_Click);
             // 
             // btnCerrarVentana
             // 
@@ -96,36 +90,43 @@
             this.btnCerrarVentana.Name = "btnCerrarVentana";
             this.btnCerrarVentana.Size = new System.Drawing.Size(91, 23);
             this.btnCerrarVentana.TabIndex = 15;
-            this.btnCerrarVentana.Text = "Cerrar Ventana";
+            this.btnCerrarVentana.Text = "Cancelar";
             this.btnCerrarVentana.UseVisualStyleBackColor = true;
             this.btnCerrarVentana.Click += new System.EventHandler(this.btnCerrarVentana_Click);
+            // 
+            // cmbNumeroMesa
+            // 
+            this.cmbNumeroMesa.FormattingEnabled = true;
+            this.cmbNumeroMesa.Location = new System.Drawing.Point(272, 62);
+            this.cmbNumeroMesa.Name = "cmbNumeroMesa";
+            this.cmbNumeroMesa.Size = new System.Drawing.Size(51, 21);
+            this.cmbNumeroMesa.TabIndex = 16;
             // 
             // CerrarMesaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 162);
+            this.Controls.Add(this.cmbNumeroMesa);
             this.Controls.Add(this.btnCerrarVentana);
             this.Controls.Add(this.btnCerrarMesa);
-            this.Controls.Add(this.nudNumeroMesa);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbLocalidad);
             this.Name = "CerrarMesaForm";
             this.Text = "Cerrar Mesa";
-            ((System.ComponentModel.ISupportInitialize)(this.nudNumeroMesa)).EndInit();
+            this.Load += new System.EventHandler(this.CerrarMesaForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.NumericUpDown nudNumeroMesa;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbLocalidad;
         private System.Windows.Forms.Button btnCerrarMesa;
         private System.Windows.Forms.Button btnCerrarVentana;
+        private System.Windows.Forms.ComboBox cmbNumeroMesa;
     }
 }
