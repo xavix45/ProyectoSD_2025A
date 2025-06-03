@@ -54,6 +54,14 @@
       <Project>{9e8b2c3c-bb5f-45dc-a5a3-fa3c103211b1}</Project>
       <Name>CapaConexion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{a1db91e5-60f2-40d2-b87b-39e3a5f4e08d}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.csproj">
+      <Project>{bdc4dd83-4caf-42b4-8897-6a4639476e53}</Project>
+      <Name>Negocio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Protocolo\Protocolo.csproj">
       <Project>{338b1115-51cc-45a6-a868-8a33e79335a6}</Project>
       <Name>Protocolo</Name>
