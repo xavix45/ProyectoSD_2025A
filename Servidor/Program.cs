@@ -4,11 +4,13 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading;
+using CapaConexion;
 
 namespace Servidor
 {
     internal class Program
     {
+        EscrutinioDAL escrutinioDAL = new EscrutinioDAL();
         static void Main()
         {
             // Reemplazar la inicialización con tipo de destino por una inicialización explícita  

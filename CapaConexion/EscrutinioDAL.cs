@@ -6,10 +6,8 @@ using Entidades;
 
 namespace CapaConexion
 {
-
     public class EscrutinioDAL
-    {
-        
+    {        
             private ConexionBD conexion = new ConexionBD();
             private SqlCommand comando;
             private SqlDataReader leer;

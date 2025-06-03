@@ -94,8 +94,7 @@ namespace EscrutinioGrafica
 
             int votos = escrutinioNegocio.ObtenerVotosValidos(mesa.IdMesa, candidato.IdCandidato);
 
-
-             nudVotosValidos.Value = votos;
+            nudVotosValidos.Value = votos;
 
         }
 

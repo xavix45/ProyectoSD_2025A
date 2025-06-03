@@ -49,6 +49,8 @@ namespace EscrutinioGrafica
                 if (resultado == DialogResult.OK)
                 {
                     escrutinioCN.CerrarMesa(mesa.IdMesa);
+                    MessageBox.Show("Esta mesa se cerro correctamente", "Cierre de mesa");
+                    return;
                 }
                 else
                 {
@@ -57,7 +59,7 @@ namespace EscrutinioGrafica
             }
             else 
             {
-                MessageBox.Show("Esta mesa esta cerrada", "Cierre de mesa");
+                MessageBox.Show("Esta ya mesa esta cerrada", "Cierre de mesa");
                 return;
             }  
         }

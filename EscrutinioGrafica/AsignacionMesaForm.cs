@@ -8,6 +8,7 @@ namespace EscrutinioGrafica
 {
     public partial class AsignacionMesaForm : Form
     {
+        List<string> listaVacia = new List<string>();
         public AsignacionMesaForm()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace EscrutinioGrafica
             List<Localidad> localidades = escrutinioNegocio.ObtenerLocalidades();
 
             // Limpiar el ComboBox antes de llenarlo  
-            cmbLocalidad.DataSource = null;
+            cmbLocalidad.DataSource = listaVacia;
             cmbLocalidad.DataSource = localidades;
 
         }
