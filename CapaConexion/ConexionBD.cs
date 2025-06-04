@@ -24,7 +24,7 @@ namespace CapaConexion              // Define el espacio de nombres para organiz
     public class ConexionBD         // Clase que encapsula la conexión a la base de datos.
     {
         // Objeto SqlConnection inicializado con una cadena de conexión a una instancia local de SQL Server.
-        public SqlConnection Conexion = new SqlConnection("Data Source=BATMAN01\\SQLEXPRESS01;Initial Catalog=EleccionesSD;Integrated Security=True;");
+        public SqlConnection Conexion = new SqlConnection("Data Source=DESKTOP-U1OLQL1\\SQLEXPRESS;Initial Catalog=EleccionesSD;Integrated Security=True;");
 
         // Método que abre la conexión si está cerrada.
         public SqlConnection AbrirConexion()

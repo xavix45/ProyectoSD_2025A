@@ -167,6 +167,11 @@ namespace Negocio
             return dal.ObtenerVotantes(idMesa); // Llama a DAL para obtener el número de votantes de la mesa
         }
 
+        public DatosMesaCompleta ObtenerDatosMesaCompleta(int idMesa)
+        {
+            // Llamamos al método que ya tienes para obtener los datos completos de la mesa
+            return dal.ObtenerDatosMesaCompleta(idMesa);
+        }
 
     }
 }

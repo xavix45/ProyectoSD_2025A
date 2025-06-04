@@ -105,6 +105,7 @@ namespace EscrutinioGrafica
                     nudVotosBlancos.Value = blancos;
                     nudVotosNulos.Value = nulos;
                     nudAusentes.Value = ausentes;
+                    CalcularPorcentajes();
                 }
             }
         }
@@ -158,6 +159,7 @@ namespace EscrutinioGrafica
             if (respuesta.StartsWith("OK"))
             {
                 MessageBox.Show("Votos registrados correctamente.");
+                CalcularPorcentajes();
             }
             else
             {
@@ -176,5 +178,36 @@ namespace EscrutinioGrafica
             CargarLocalidades();  // Carga localidades en combo
             CargarCandidatos();   // Carga candidatos en combo
         }
+
+        private void CalcularPorcentajes()
+        {
+            // Verificar que los valores no sean nulos o cero
+            int totalVotantes;
+            if (int.TryParse(txtVotantes.Text, out totalVotantes) && totalVotantes > 0)
+            {
+                // Votos válidos, blancos, nulos y ausentes
+                int votosBlancos = (int)nudVotosBlancos.Value;
+                int votosNulos = (int)nudVotosNulos.Value;
+                int votosAusentes = (int)nudAusentes.Value;
+
+                // Calcular los porcentajes
+
+                double porcentajeVotosBlancos = (double)votosBlancos / totalVotantes * 100;
+                double porcentajeVotosNulos = (double)votosNulos / totalVotantes * 100;
+                double porcentajeVotosAusentes = (double)votosAusentes / totalVotantes * 100;
+
+                // Mostrar los resultados en algún control o texto
+                txtBlancos.Text = $"{porcentajeVotosBlancos:F2}%";
+                txtnulos.Text = $"{porcentajeVotosNulos:F2}%";
+                txtAusentismo.Text = $"{porcentajeVotosAusentes:F2}%";
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingrese un número válido de votantes.");
+            }
+        }
+
+
+
     }
 }

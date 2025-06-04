@@ -47,6 +47,12 @@
             this.cmbNumeroMesa = new System.Windows.Forms.ComboBox();
             this.nudAusentes = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtnulos = new System.Windows.Forms.Label();
+            this.txtBlancos = new System.Windows.Forms.Label();
+            this.txtAusentismo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosValidos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosNulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosBlancos)).BeginInit();
@@ -218,11 +224,71 @@
             this.label5.TabIndex = 24;
             this.label5.Text = "Ausentes:";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(402, 223);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(73, 13);
+            this.label9.TabIndex = 26;
+            this.label9.Text = "%Votos nulos:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(402, 259);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(85, 13);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "%Votos blancos:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(402, 293);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(72, 13);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "%Ausentismo:";
+            // 
+            // txtnulos
+            // 
+            this.txtnulos.AutoSize = true;
+            this.txtnulos.Location = new System.Drawing.Point(493, 222);
+            this.txtnulos.Name = "txtnulos";
+            this.txtnulos.Size = new System.Drawing.Size(21, 13);
+            this.txtnulos.TabIndex = 29;
+            this.txtnulos.Text = "nul";
+            // 
+            // txtBlancos
+            // 
+            this.txtBlancos.AutoSize = true;
+            this.txtBlancos.Location = new System.Drawing.Point(493, 259);
+            this.txtBlancos.Name = "txtBlancos";
+            this.txtBlancos.Size = new System.Drawing.Size(21, 13);
+            this.txtBlancos.TabIndex = 30;
+            this.txtBlancos.Text = "nul";
+            // 
+            // txtAusentismo
+            // 
+            this.txtAusentismo.AutoSize = true;
+            this.txtAusentismo.Location = new System.Drawing.Point(493, 296);
+            this.txtAusentismo.Name = "txtAusentismo";
+            this.txtAusentismo.Size = new System.Drawing.Size(21, 13);
+            this.txtAusentismo.TabIndex = 31;
+            this.txtAusentismo.Text = "nul";
+            // 
             // RegistroDatosForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 365);
+            this.ClientSize = new System.Drawing.Size(568, 365);
+            this.Controls.Add(this.txtAusentismo);
+            this.Controls.Add(this.txtBlancos);
+            this.Controls.Add(this.txtnulos);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.nudAusentes);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.cmbNumeroMesa);
@@ -275,5 +341,11 @@
         private System.Windows.Forms.ComboBox cmbNumeroMesa;
         private System.Windows.Forms.NumericUpDown nudAusentes;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label txtnulos;
+        private System.Windows.Forms.Label txtBlancos;
+        private System.Windows.Forms.Label txtAusentismo;
     }
 }

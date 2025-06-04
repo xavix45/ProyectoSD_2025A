@@ -204,6 +204,8 @@ namespace ServidorTCP
                                 Console.WriteLine($"[Servidor] Votos validos mesa {mesaId}, candidato {candidatoId}: {votosValidos}");
                                 break;
 
+
+
                             case "GUARDARACTUALIZARVOTOS":
                                 // Verificar si la mesa está cerrada antes de procesar el comando
                                 int idMesa2 = int.Parse(partes[1]);

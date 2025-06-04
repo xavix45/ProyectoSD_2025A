@@ -209,12 +209,7 @@ namespace CapaConexion
             return candidatos;
         }
 
-        // Clase auxiliar para contener todos los datos de una mesa
-        public class DatosMesaCompleta
-        {
-            public Mesa Mesa { get; set; }
-            public VotosExtras VotosExtras { get; set; }
-        }
+        
 
         // Obtiene todos los datos detallados de una mesa
         public DatosMesaCompleta ObtenerDatosMesaCompleta(int idMesa)
