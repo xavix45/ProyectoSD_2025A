@@ -127,13 +127,14 @@ namespace ServidorTCP
                                 Console.WriteLine($"[Servidor] Respuesta CIERREMESA para IdMesa={idCerrar}: {respuesta}");
                                 break;
 
-                            //case "CONSULTAR_MESA":
-                            //    // Obtener todas las mesas registradas
-                            //    var mesas = negocio.ObtenerMesas();
-                            //    // Formatear respuesta con id y número de mesa
-                            //    respuesta = "OK|" + string.Join(",", mesas.ConvertAll(m => $"{m.IdMesa}:{m.NumeroMesa}"));
-                            //    Console.WriteLine("[Servidor] Enviando lista de mesas");
-                            //    break;
+                            case "CONSULTAR_MESA":
+                                // Obtener todas las mesas registradas
+                                int idMesa3 = int.Parse(partes[1]);
+                                var mesas1 = negocio.ObtenerDatosMesaCompleta(idMesa3);
+                                
+                                respuesta = $"OK|{mesas1.Mesa.Cerrada}|{mesas1.VotosExtras.Blancos}|{mesas1.VotosExtras.Nulos}|{mesas1.VotosExtras.Ausentes}";
+                                Console.WriteLine("[Servidor] Enviando lista de mesas");
+                                break;
 
                             case "OBTENERVOTOSEXTRASMESA":
                                 int idMesa1 = int.Parse(partes[1]);

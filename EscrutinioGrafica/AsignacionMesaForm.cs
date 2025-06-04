@@ -22,6 +22,7 @@ namespace EscrutinioGrafica
     {
         // Referencia al formulario principal para usar la conexión TCP persistente
         private Escrutinio padre;
+        List<Mesa> mesasPorLocalidad;
 
         // Constructor recibe el formulario principal como parámetro
         public AsignacionMesaForm(Escrutinio formularioPadre)
@@ -54,7 +55,7 @@ namespace EscrutinioGrafica
             cmbLocalidad.DataSource = localidades;
             cmbLocalidad.DisplayMember = "Nombre";    // Mostrar el nombre visible
             cmbLocalidad.ValueMember = "IdLocalidad"; // Valor interno del combo
-            cb_LocalidadConsulta.DataSource = localidades; // Asignar también al combo de consulta si es necesario
+            cmbLocalidadConsulta.DataSource = localidades; // Asignar también al combo de consulta si es necesario
         }
 
         // Evento que se activa al hacer clic en "Asignar mesa"
@@ -118,6 +119,49 @@ namespace EscrutinioGrafica
         {
             
             
+        }
+
+        private void cmbLocalidadConsulta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLocalidad.SelectedItem == null) return;
+
+            int idLocalidad = ((Localidad)cmbLocalidad.SelectedItem).IdLocalidad;
+            string comando = $"OBTENERMESASPORLOCALIDAD|{idLocalidad}";
+            string respuesta = padre.EnviarComando(comando);
+            mesasPorLocalidad = UtilidadesProtocolo.DeserializarMesas(respuesta);
+
+            cmbNumeroMesa.DataSource = mesasPorLocalidad;
+            cmbNumeroMesa.DisplayMember = "NumeroMesa";
+            cmbNumeroMesa.ValueMember = "IdMesa";
+
+            //// Mostrar votantes de la primera mesa (si hay alguna)
+            //if (mesasPorLocalidad.Count > 0)
+            //    txtVotantes.Text = mesasPorLocalidad[0].Votantes.ToString();
+            //else
+            //    txtVotantes.Text = "0";
+        }
+
+        private void btn_Consulta_Click(object sender, EventArgs e)
+        {
+            var mesa = (Mesa)cmbNumeroMesa.SelectedItem;
+            // Obtener los votos extra (blancos, nulos, ausentes)
+            string comando = $"CONSULTAR_MESA||{mesa.IdMesa}";
+            string respuesta = padre.EnviarComando(comando);
+
+            if (respuesta.StartsWith("OK|"))
+            {
+                // Parsear la respuesta para obtener los valores de los votos extras
+                var partes = respuesta.Split('|');
+                if (partes.Length == 4)
+                {
+                    bool estado = bool.Parse(partes[1]);
+                    int blancos = int.Parse(partes[2]);
+                    int nulos = int.Parse(partes[3]);
+                    int ausentes = int.Parse(partes[4]);
+
+                    tb_ConsultaMesa.Text = $"{estado} {blancos} {nulos} {ausentes}";
+                }
+            }
         }
     }
 
