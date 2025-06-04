@@ -1,5 +1,5 @@
 ﻿// ************************************************************************
-// Proyecto 01 
+// Prueba 01 
 // Sabina Alomoto Xavier Anatoa
 // Fecha de realización: 17/05/2025 
 // Fecha de entrega: 03/06/2025 
@@ -54,6 +54,7 @@ namespace EscrutinioGrafica
             cmbLocalidad.DataSource = localidades;
             cmbLocalidad.DisplayMember = "Nombre";    // Mostrar el nombre visible
             cmbLocalidad.ValueMember = "IdLocalidad"; // Valor interno del combo
+            cb_LocalidadConsulta.DataSource = localidades; // Asignar también al combo de consulta si es necesario
         }
 
         // Evento que se activa al hacer clic en "Asignar mesa"
@@ -107,7 +108,18 @@ namespace EscrutinioGrafica
         {
             this.Close();
         }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_LocalidadConsulta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            
+        }
     }
 
-
+    
 }

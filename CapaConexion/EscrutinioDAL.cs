@@ -1,5 +1,5 @@
 ﻿// ************************************************************************
-// Proyecto 01 
+// Prueba 01 
 // Sabina Alomoto Xavier Anatoa
 // Fecha de realización: 17/05/2025 
 // Fecha de entrega: 03/06/2025 

@@ -1,6 +1,6 @@
 ﻿
 // ************************************************************************
-// Proyecto 01 
+// Prueba 01 
 // Sabina Alomoto Xavier Anatoa
 // Fecha de realización: 17/05/2025 
 // Fecha de entrega: 03/06/2025 
@@ -30,7 +30,7 @@ namespace ServidorTCP
     {
         // Instancia de la capa de negocio para manejar la lógica electoral
         static EscrutinioCN negocio = new EscrutinioCN();
-
+        //como creamos un protocolo tcp para consulta de mesa
         static void Main()
         {
             // Crear el listener TCP que escuchará en todas las interfaces de red en el puerto 5000
@@ -117,11 +117,7 @@ namespace ServidorTCP
 
                                 Console.WriteLine($"[Servidor] Respuesta REGISTRODATOS: {respuesta}");
                                 break;
-                            case "OBTENERVOTOSEXTRASMESA":
-                                int idMesa1 = int.Parse(partes[1]);
-                                var votosExtras = negocio.ObtenerVotosMesa(idMesa1); // Método que devuelve VotosExtras de la mesa
-                                respuesta = $"OK|{votosExtras.Blancos}|{votosExtras.Nulos}|{votosExtras.Ausentes}";
-                                break;
+                            
 
                             case "CIERREMESA":
                                 // Cerrar mesa especificada
@@ -129,6 +125,20 @@ namespace ServidorTCP
                                 respuesta = negocio.CerrarMesa(idCerrar);
 
                                 Console.WriteLine($"[Servidor] Respuesta CIERREMESA para IdMesa={idCerrar}: {respuesta}");
+                                break;
+
+                            //case "CONSULTAR_MESA":
+                            //    // Obtener todas las mesas registradas
+                            //    var mesas = negocio.ObtenerMesas();
+                            //    // Formatear respuesta con id y número de mesa
+                            //    respuesta = "OK|" + string.Join(",", mesas.ConvertAll(m => $"{m.IdMesa}:{m.NumeroMesa}"));
+                            //    Console.WriteLine("[Servidor] Enviando lista de mesas");
+                            //    break;
+
+                            case "OBTENERVOTOSEXTRASMESA":
+                                int idMesa1 = int.Parse(partes[1]);
+                                var votosExtras = negocio.ObtenerVotosMesa(idMesa1); // Método que devuelve VotosExtras de la mesa
+                                respuesta = $"OK|{votosExtras.Blancos}|{votosExtras.Nulos}|{votosExtras.Ausentes}";
                                 break;
 
                             case "ESTADISTICASMESA":
