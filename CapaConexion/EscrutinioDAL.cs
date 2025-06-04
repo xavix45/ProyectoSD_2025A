@@ -1,43 +1,60 @@
-﻿using System;
+﻿// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Clase DAL que se conecta a SQL Server para ejecutar procedimientos relacionados al escrutinio electoral.
+// * Permite asignar mesas, registrar votos, cerrar mesas y obtener datos relevantes de la base de datos.
+// Recomendaciones:
+// * Incluir control de errores más específico y registrar errores en logs.
+// * Considerar el uso de patrones de diseño como Repository o Unit of Work para separar la lógica de datos.
+// ************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using Entidades;
+using Entidades; // Referencia a las clases de entidades del dominio
 
 namespace CapaConexion
 {
     public class EscrutinioDAL
-    {        
-            private ConexionBD conexion = new ConexionBD();
-            private SqlCommand comando;
-            private SqlDataReader leer;
+    {
+        // Objeto para gestionar la conexión a la base de datos
+        private ConexionBD conexion = new ConexionBD();
 
-            public EscrutinioDAL()
-            {
-                comando = new SqlCommand();
-               
-            }
+        // Objeto SqlCommand reutilizable para ejecutar comandos SQL
+        private SqlCommand comando;
 
+        // Lector para leer datos retornados por comandos SQL
+        private SqlDataReader leer;
+
+        public EscrutinioDAL()
+        {
+            comando = new SqlCommand(); // Inicialización del comando en el constructor
+        }
+
+        // Método para asignar una mesa electoral mediante un procedimiento almacenado
         public string AsignarMesa(DateTime fecha, string localidad, out int idMesa, out int numeroMesa, out int votantes)
         {
-            idMesa = 0;
-            numeroMesa = 0;
-            votantes = 0;
+            idMesa = 0; numeroMesa = 0; votantes = 0;
             string resultado = "";
 
             try
             {
-                // Asegurarse de que la conexión está abierta
                 SqlConnection conn = conexion.AbrirConexion();
-                comando.Connection = conn;  // Asignar la conexión al comando
+                comando.Connection = conn;
 
-                comando.CommandText = "AsignarMesa";
+                comando.CommandText = "AsignarMesa"; // Nombre del SP
                 comando.CommandType = CommandType.StoredProcedure;
                 comando.Parameters.Clear();
 
+                // Parámetros de entrada
                 comando.Parameters.AddWithValue("@Fecha", fecha);
                 comando.Parameters.AddWithValue("@Localidad", localidad);
 
+                // Parámetros de salida
                 var paramIdMesa = new SqlParameter("@IdMesa", SqlDbType.Int) { Direction = ParameterDirection.Output };
                 var paramNumeroMesa = new SqlParameter("@NumeroMesa", SqlDbType.Int) { Direction = ParameterDirection.Output };
                 var paramVotantes = new SqlParameter("@Votantes", SqlDbType.Int) { Direction = ParameterDirection.Output };
@@ -48,6 +65,7 @@ namespace CapaConexion
 
                 comando.ExecuteNonQuery();
 
+                // Recuperar valores de salida
                 idMesa = (int)paramIdMesa.Value;
                 numeroMesa = (int)paramNumeroMesa.Value;
                 votantes = (int)paramVotantes.Value;
@@ -60,36 +78,36 @@ namespace CapaConexion
             }
             finally
             {
-                conexion.CerrarConexion();  // Asegurarse de cerrar la conexión después de la operación
+                conexion.CerrarConexion(); // Liberar recursos
             }
 
             return resultado;
         }
 
-        // Método para registrar datos - llama al procedimiento RegistrarDatos
+        // Método para registrar los votos por mesa
         public string RegistrarDatos(int idMesa, string votosCsv, int blancos, int nulos)
         {
             string resultado = "";
             try
             {
-                // Asegurarse de que la conexión esté abierta antes de ejecutar el comando
-                SqlConnection conn = conexion.AbrirConexion();  // Asegúrate de abrir la conexión aquí
-                comando.Connection = conn;  // Asignar la conexión al comando
+                SqlConnection conn = conexion.AbrirConexion();
+                comando.Connection = conn;
 
                 comando.CommandText = "RegistrarDatos";
                 comando.CommandType = CommandType.StoredProcedure;
                 comando.Parameters.Clear();
 
+                // Agregar parámetros
                 comando.Parameters.AddWithValue("@IdMesa", idMesa);
                 comando.Parameters.AddWithValue("@Votos", votosCsv);
                 comando.Parameters.AddWithValue("@Blancos", blancos);
                 comando.Parameters.AddWithValue("@Nulos", nulos);
 
+                // Parámetro de salida
                 var paramRespuesta = new SqlParameter("@Respuesta", SqlDbType.NVarChar, 50) { Direction = ParameterDirection.Output };
                 comando.Parameters.Add(paramRespuesta);
 
                 comando.ExecuteNonQuery();
-
                 resultado = paramRespuesta.Value.ToString();
             }
             catch (SqlException ex)
@@ -98,13 +116,12 @@ namespace CapaConexion
             }
             finally
             {
-                // Asegurarse de cerrar la conexión después de la ejecución
-                conexion.CerrarConexion();  // Cerrar la conexión
+                conexion.CerrarConexion();
             }
             return resultado;
         }
 
-        // Método para cerrar mesa - llama al procedimiento CerrarMesa
+        // Método que cierra una mesa electoral, usando SP
         public string CerrarMesa(int idMesa)
         {
             string resultado = "";
@@ -117,18 +134,13 @@ namespace CapaConexion
                     using (SqlCommand comando = new SqlCommand("CerrarMesa", conn))
                     {
                         comando.CommandType = CommandType.StoredProcedure;
-
                         comando.Parameters.Clear();
                         comando.Parameters.AddWithValue("@IdMesa", idMesa);
 
-                        var paramRespuesta = new SqlParameter("@Respuesta", SqlDbType.NVarChar, 10)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
+                        var paramRespuesta = new SqlParameter("@Respuesta", SqlDbType.NVarChar, 10) { Direction = ParameterDirection.Output };
                         comando.Parameters.Add(paramRespuesta);
 
                         comando.ExecuteNonQuery();
-
                         resultado = paramRespuesta.Value.ToString();
                     }
                 }
@@ -141,8 +153,7 @@ namespace CapaConexion
             return resultado;
         }
 
-
-
+        // Obtiene la lista de localidades disponibles
         public List<Localidad> ObtenerLocalidades()
         {
             List<Localidad> localidades = new List<Localidad>();
@@ -170,7 +181,7 @@ namespace CapaConexion
             return localidades;
         }
 
-        // Obtener todos los candidatos
+        // Retorna todos los candidatos
         public List<Candidato> ObtenerCandidatos()
         {
             List<Candidato> candidatos = new List<Candidato>();
@@ -198,25 +209,23 @@ namespace CapaConexion
             return candidatos;
         }
 
-        // Clase auxiliar para contener datos completos de mesa
+        // Clase auxiliar para contener todos los datos de una mesa
         public class DatosMesaCompleta
         {
             public Mesa Mesa { get; set; }
             public VotosExtras VotosExtras { get; set; }
         }
 
-        // Obtener datos completos de una mesa
+        // Obtiene todos los datos detallados de una mesa
         public DatosMesaCompleta ObtenerDatosMesaCompleta(int idMesa)
         {
-            DatosMesaCompleta resultado = new DatosMesaCompleta();
-            resultado.Mesa = null;
-            resultado.VotosExtras = new VotosExtras();
+            DatosMesaCompleta resultado = new DatosMesaCompleta { Mesa = null, VotosExtras = new VotosExtras() };
 
             SqlConnection conn = conexion.AbrirConexion();
 
             try
             {
-                // Datos mesa + localidad
+                // Consulta de datos de mesa + localidad
                 string queryMesa = @"
                     SELECT m.IdMesa, m.FechaAsignada, m.NumeroMesa, m.Votantes, m.Cerrada,
                            l.IdLocalidad, l.Nombre
@@ -227,7 +236,6 @@ namespace CapaConexion
                 using (SqlCommand cmdMesa = new SqlCommand(queryMesa, conn))
                 {
                     cmdMesa.Parameters.AddWithValue("@IdMesa", idMesa);
-
                     using (SqlDataReader reader = cmdMesa.ExecuteReader())
                     {
                         if (reader.Read())
@@ -249,14 +257,11 @@ namespace CapaConexion
                                 MesaCandidatos = new List<MesaCandidato>()
                             };
                         }
-                        else
-                        {
-                            return null;
-                        }
+                        else return null;
                     }
                 }
 
-                // Candidatos + votos
+                // Consulta candidatos con votos
                 string queryCandidatos = @"
                     SELECT mc.IdCandidato, mc.Votos, c.Nombre
                     FROM MesaCandidato mc
@@ -266,7 +271,6 @@ namespace CapaConexion
                 using (SqlCommand cmdCandidatos = new SqlCommand(queryCandidatos, conn))
                 {
                     cmdCandidatos.Parameters.AddWithValue("@IdMesa", idMesa);
-
                     using (SqlDataReader reader = cmdCandidatos.ExecuteReader())
                     {
                         while (reader.Read())
@@ -287,16 +291,12 @@ namespace CapaConexion
                     }
                 }
 
-                // Votos extras
-                string queryExtras = @"
-                    SELECT Blancos, Nulos, Ausentes
-                    FROM VotosExtras
-                    WHERE IdMesa = @IdMesa";
+                // Consulta votos extras
+                string queryExtras = "SELECT Blancos, Nulos, Ausentes FROM VotosExtras WHERE IdMesa = @IdMesa";
 
                 using (SqlCommand cmdExtras = new SqlCommand(queryExtras, conn))
                 {
                     cmdExtras.Parameters.AddWithValue("@IdMesa", idMesa);
-
                     using (SqlDataReader reader = cmdExtras.ExecuteReader())
                     {
                         if (reader.Read())
@@ -304,12 +304,6 @@ namespace CapaConexion
                             resultado.VotosExtras.Blancos = reader.GetInt32(0);
                             resultado.VotosExtras.Nulos = reader.GetInt32(1);
                             resultado.VotosExtras.Ausentes = reader.GetInt32(2);
-                        }
-                        else
-                        {
-                            resultado.VotosExtras.Blancos = 0;
-                            resultado.VotosExtras.Nulos = 0;
-                            resultado.VotosExtras.Ausentes = 0;
                         }
                         resultado.VotosExtras.IdMesa = idMesa;
                     }
@@ -323,6 +317,7 @@ namespace CapaConexion
             }
         }
 
+        // Retorna mesas pertenecientes a una localidad específica
         public List<Mesa> ObtenerMesasPorLocalidad(int idLocalidad)
         {
             List<Mesa> mesas = new List<Mesa>();
@@ -333,16 +328,14 @@ namespace CapaConexion
                 comando.Parameters.Clear();
 
                 string consulta = @"
-                SELECT 
-                m.IdMesa, m.FechaAsignada, m.NumeroMesa, m.Votantes, m.Cerrada,
-                l.IdLocalidad, l.Nombre
-                FROM Mesa m
-                INNER JOIN Localidad l ON m.IdLocalidad = l.IdLocalidad
-                WHERE l.IdLocalidad = @IdLocalidad";
-
+                    SELECT m.IdMesa, m.FechaAsignada, m.NumeroMesa, m.Votantes, m.Cerrada,
+                           l.IdLocalidad, l.Nombre
+                    FROM Mesa m
+                    INNER JOIN Localidad l ON m.IdLocalidad = l.IdLocalidad
+                    WHERE l.IdLocalidad = @IdLocalidad";
 
                 comando.CommandText = consulta;
-                comando.CommandType = System.Data.CommandType.Text;
+                comando.CommandType = CommandType.Text;
                 comando.Parameters.AddWithValue("@IdLocalidad", idLocalidad);
 
                 using (SqlDataReader reader = comando.ExecuteReader())
@@ -362,7 +355,6 @@ namespace CapaConexion
                                 Nombre = reader.GetString(6)
                             }
                         };
-
                         mesas.Add(mesa);
                     }
                 }
@@ -371,14 +363,15 @@ namespace CapaConexion
             {
                 Console.WriteLine(ex.Message);
             }
-            finally 
+            finally
             {
                 conexion.CerrarConexion();
             }
-      
+
             return mesas;
         }
 
+        // Guarda o actualiza votos válidos y votos extras
         public void GuardarOActualizarVotos(int idMesa, int idCandidato, int votosValidos, int blancos, int nulos, int ausentes)
         {
             try
@@ -386,19 +379,12 @@ namespace CapaConexion
                 comando.Connection = conexion.AbrirConexion();
                 comando.Parameters.Clear();
 
-                // 1. MesaCandidato
+                // Query para insertar o actualizar votos válidos
                 string sqlMesaCandidato = @"
-            IF EXISTS (SELECT 1 FROM MesaCandidato WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato)
-            BEGIN
-                UPDATE MesaCandidato
-                SET Votos = @VotosValidos
-                WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato
-            END
-            ELSE
-            BEGIN
-                INSERT INTO MesaCandidato (IdMesa, IdCandidato, Votos)
-                VALUES (@IdMesa, @IdCandidato, @VotosValidos)
-            END";
+                    IF EXISTS (SELECT 1 FROM MesaCandidato WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato)
+                        UPDATE MesaCandidato SET Votos = @VotosValidos WHERE IdMesa = @IdMesa AND IdCandidato = @IdCandidato
+                    ELSE
+                        INSERT INTO MesaCandidato (IdMesa, IdCandidato, Votos) VALUES (@IdMesa, @IdCandidato, @VotosValidos)";
 
                 comando.CommandText = sqlMesaCandidato;
                 comando.CommandType = CommandType.Text;
@@ -407,21 +393,13 @@ namespace CapaConexion
                 comando.Parameters.AddWithValue("@VotosValidos", votosValidos);
                 comando.ExecuteNonQuery();
 
-                // 2. VotosExtras
-                comando.Parameters.Clear(); // ← LIMPIA los parámetros antes de la segunda consulta
-
+                // Votos extras
+                comando.Parameters.Clear();
                 string sqlVotosExtras = @"
-            IF EXISTS (SELECT 1 FROM VotosExtras WHERE IdMesa = @IdMesa)
-            BEGIN
-                UPDATE VotosExtras
-                SET Blancos = @Blancos, Nulos = @Nulos, Ausentes = @Ausentes
-                WHERE IdMesa = @IdMesa
-            END
-            ELSE
-            BEGIN
-                INSERT INTO VotosExtras (IdMesa, Blancos, Nulos, Ausentes)
-                VALUES (@IdMesa, @Blancos, @Nulos, @Ausentes)
-            END";
+                    IF EXISTS (SELECT 1 FROM VotosExtras WHERE IdMesa = @IdMesa)
+                        UPDATE VotosExtras SET Blancos = @Blancos, Nulos = @Nulos, Ausentes = @Ausentes WHERE IdMesa = @IdMesa
+                    ELSE
+                        INSERT INTO VotosExtras (IdMesa, Blancos, Nulos, Ausentes) VALUES (@IdMesa, @Blancos, @Nulos, @Ausentes)";
 
                 comando.CommandText = sqlVotosExtras;
                 comando.Parameters.AddWithValue("@IdMesa", idMesa);
@@ -440,37 +418,30 @@ namespace CapaConexion
             }
         }
 
+        // Verifica si una mesa ya está cerrada
         public bool EstaMesaCerrada(int idMesa)
         {
             bool cerrada = false;
 
             try
             {
-                
                 comando.Connection = conexion.AbrirConexion();
                 comando.Parameters.Clear();
 
                 string consulta = "SELECT Cerrada FROM Mesa WHERE IdMesa = @IdMesa";
-
                 comando.CommandText = consulta;
                 comando.CommandType = CommandType.Text;
                 comando.Parameters.AddWithValue("@IdMesa", idMesa);
                 object resultado = comando.ExecuteScalar();
 
                 if (resultado != null && resultado != DBNull.Value)
-                {
                     cerrada = Convert.ToBoolean(resultado);
-                }
-                    
-                
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error al verificar si la mesa está cerrada: " + ex.Message);
-                // Puedes lanzar la excepción si deseas manejarla arriba
-                // throw;
             }
-            finally 
+            finally
             {
                 conexion.CerrarConexion();
             }
@@ -478,6 +449,7 @@ namespace CapaConexion
             return cerrada;
         }
 
+        // Retorna los votos válidos registrados para un candidato en una mesa
         public int ObtenerVotosValidos(int idMesa, int idCandidato)
         {
             int votos = 0;
@@ -495,16 +467,12 @@ namespace CapaConexion
                 comando.Parameters.AddWithValue("@IdCandidato", idCandidato);
 
                 object resultado = comando.ExecuteScalar();
-
                 if (resultado != null && resultado != DBNull.Value)
-                {
                     votos = Convert.ToInt32(resultado);
-                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error al obtener los votos válidos: " + ex.Message);
-                // throw; // Descomenta si quieres propagar el error
             }
             finally
             {
@@ -514,6 +482,7 @@ namespace CapaConexion
             return votos;
         }
 
+        // Obtiene el número total de votantes registrados para una mesa
         public int ObtenerVotantes(int idMesa)
         {
             int votantes = 0;
@@ -528,9 +497,7 @@ namespace CapaConexion
 
                 object resultado = comando.ExecuteScalar();
                 if (resultado != null && resultado != DBNull.Value)
-                {
                     votantes = Convert.ToInt32(resultado);
-                }
             }
             catch (Exception ex)
             {
@@ -543,9 +510,5 @@ namespace CapaConexion
 
             return votantes;
         }
-
-
-
     }
 }
-

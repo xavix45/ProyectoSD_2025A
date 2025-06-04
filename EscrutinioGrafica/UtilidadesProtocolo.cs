@@ -1,4 +1,18 @@
-﻿using System;
+﻿// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Clase utilitaria para deserializar respuestas del servidor TCP a objetos de dominio.
+// * Convierte cadenas del protocolo de texto en listas de entidades (Localidad, Candidato, Mesa).
+// Recomendaciones:
+// * Validar datos malformateados más profundamente (uso de expresiones regulares o sanitización).
+// * Considerar soportar otros formatos como JSON para mayor robustez y escalabilidad.
+// ************************************************************************
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

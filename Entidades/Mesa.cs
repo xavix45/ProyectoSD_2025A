@@ -20,15 +20,6 @@ namespace Entidades
 
         public override string ToString()
         {
-            //var sb = new StringBuilder();
-            //sb.AppendLine($"{NumeroMesa}\n");
-            //sb.AppendLine("Candidatos y votos:");
-            //foreach (var mc in MesaCandidatos)
-            //{
-            //    sb.AppendLine($" - {mc}");
-            //}
-            //sb.AppendLine($"Votos Extras: {VotosExtras}");
-            //return sb.ToString();
             return $"{NumeroMesa}";
         }
     }

@@ -1,4 +1,17 @@
-﻿using Entidades;
+﻿// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Formulario gráfico para registrar y actualizar votos válidos y extras (blancos, nulos, ausentes).
+// * Permite consultar y guardar los votos asociados a mesas y candidatos.
+// Recomendaciones:
+// * Validar que la suma de votos no supere el total de votantes antes de enviar el comando.
+// * Añadir controles visuales para bloquear el registro si la mesa ya fue cerrada.
+// ************************************************************************
+
+using Entidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

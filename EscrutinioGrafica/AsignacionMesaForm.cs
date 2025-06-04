@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Interfaz gráfica para asignar una mesa electoral a una localidad y fecha específica.
+// * Interactúa con el servidor TCP mediante una conexión persistente proporcionada por el formulario principal.
+// Recomendaciones:
+// * Desacoplar la lógica de negocio del formulario para permitir pruebas unitarias.
+// * Validar campos adicionales como formato de fecha o disponibilidad de candidatos.
+// ************************************************************************
+
+using System;
 using Entidades;
 using System.Windows.Forms;
 using System.Collections.Generic;

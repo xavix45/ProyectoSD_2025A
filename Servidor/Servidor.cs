@@ -1,4 +1,19 @@
-﻿using System;
+﻿
+// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Servidor TCP funcional que gestiona múltiples comandos del cliente en el contexto de un sistema de elecciones.
+// * Soporta asignación de mesas, registro de votos, cierre y consulta de estadísticas vía red.
+// Recomendaciones:
+// * Implementar autenticación básica para los clientes que se conecten.
+// * Considerar usar un protocolo binario o JSON para escalabilidad futura.
+// * Añadir logs persistentes para monitorear el uso del servidor y depurar errores.
+// ************************************************************************
+
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;

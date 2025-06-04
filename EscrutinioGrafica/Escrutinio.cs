@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Formulario principal del sistema gráfico de escrutinio.
+// * Gestiona la conexión TCP con el servidor y redirige a otros formularios.
+// Recomendaciones:
+// * Mostrar en la interfaz el estado de la conexión con el servidor (conectado/desconectado).
+// * Manejar reconexión automática en caso de pérdida de conexión TCP.
+// ************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -93,6 +106,11 @@ namespace EscrutinioGrafica
                 client?.Close();
             }
             catch { }
+        }
+
+        private void Escrutinio_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

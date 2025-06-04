@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ************************************************************************
+// Proyecto 01 
+// Sabina Alomoto Xavier Anatoa
+// Fecha de realización: 17/05/2025 
+// Fecha de entrega: 03/06/2025 
+// Resultados:
+// * Implementa la capa de lógica de negocio para el proceso electoral.
+// * Orquesta operaciones entre la presentación y la capa de acceso a datos (DAL).
+// Recomendaciones:
+// * Separar validaciones y reglas de negocio complejas en clases auxiliares si el proyecto escala.
+// * Añadir manejo centralizado de errores y logging para trazabilidad.
+// ************************************************************************
+
+using System;
 using System.Collections.Generic;
 using CapaConexion;
 using Entidades;
