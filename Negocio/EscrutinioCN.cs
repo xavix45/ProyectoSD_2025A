@@ -149,6 +149,11 @@ namespace Negocio
         {
             return dal.ObtenerVotosValidos(idMesa, idCandidato);
         }
+        public int ObtenerVotantes(int idMesa)
+        {
+            return dal.ObtenerVotantes(idMesa); // Llama a DAL para obtener el número de votantes de la mesa
+        }
+
 
     }
 }

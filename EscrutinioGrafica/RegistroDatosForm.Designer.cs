@@ -244,6 +244,7 @@
             this.Controls.Add(this.cmbLocalidad);
             this.Name = "RegistroDatosForm";
             this.Text = "RegistroDatos";
+            this.Load += new System.EventHandler(this.RegistroDatosForm_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosValidos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosNulos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudVotosBlancos)).EndInit();

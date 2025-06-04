@@ -1,77 +1,25 @@
-﻿using System;
+﻿// ClienteTCP.cs
+using System;
 using System.Net.Sockets;
 using System.Text;
 
-
-namespace Cliente
+public static class ClienteTCP
 {
-    public class Program
+    private static string ipServidor = "127.0.0.1";
+    private static int puerto = 5000;
+
+    public static string EnviarComando(string comando)
     {
-        static void Main()
+        TcpClient cliente = new TcpClient(ipServidor, puerto);
+        NetworkStream stream = cliente.GetStream();
         {
-            TcpClient client = new TcpClient("127.0.0.1", 5000);
-            NetworkStream stream = client.GetStream();
+            byte[] datos = Encoding.UTF8.GetBytes(comando);
+            stream.Write(datos, 0, datos.Length);
 
             byte[] buffer = new byte[4096];
-            int bytes = stream.Read(buffer, 0, buffer.Length);
-            Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, bytes));
+            int bytesLeidos = stream.Read(buffer, 0, buffer.Length);
 
-            while (true)
-            {
-                Console.WriteLine("\nSeleccione una opción:");
-                Console.WriteLine("1. Asignar Mesa");
-                Console.WriteLine("2. Registrar Datos");
-                Console.WriteLine("3. Cerrar Mesa");
-                Console.WriteLine("4. Salir");
-                Console.Write("Opción: ");
-
-                string opcion = Console.ReadLine();
-                string input = "";
-
-                if (opcion == "4") break;
-
-                switch (opcion)
-                {
-                    case "1":
-                        Console.Write("Ingrese la fecha (YYYY-MM-DD): ");
-                        string fecha = Console.ReadLine();
-                        Console.Write("Ingrese la localidad: ");
-                        string localidad = Console.ReadLine();
-                        input = $"ASIGNACIONMESA|{fecha}|{localidad}";
-                        break;
-
-                    case "2":
-                        Console.Write("Ingrese número de mesa: ");
-                        string numMesa = Console.ReadLine();
-                        Console.Write("Ingrese votos por candidatos separados por coma (ej. 50,30,20): ");
-                        string votos = Console.ReadLine();
-                        Console.Write("Ingrese votos en blanco: ");
-                        string blancos = Console.ReadLine();
-                        Console.Write("Ingrese votos nulos: ");
-                        string nulos = Console.ReadLine();
-                        input = $"REGISTRODATOS|{numMesa}|{votos}|{blancos}|{nulos}";
-                        break;
-
-                    case "3":
-                        Console.Write("Ingrese número de mesa a cerrar: ");
-                        string mesaCerrar = Console.ReadLine();
-                        input = $"CIERREMESA|{mesaCerrar}";
-                        break;
-
-                    default:
-                        Console.WriteLine("Opción no válida.");
-                        continue;
-                }
-
-                byte[] envio = Encoding.UTF8.GetBytes(input);
-                stream.Write(envio, 0, envio.Length);
-
-                bytes = stream.Read(buffer, 0, buffer.Length);
-                Console.WriteLine("Respuesta: " + Encoding.UTF8.GetString(buffer, 0, bytes));
-            }
-
-            client.Close();
+            return Encoding.UTF8.GetString(buffer, 0, bytesLeidos).Trim();
         }
     }
 }
-

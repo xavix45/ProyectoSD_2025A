@@ -10,7 +10,7 @@ namespace CapaConexion
 {
     public class ConexionBD
     {
-        public SqlConnection Conexion = new SqlConnection("Data Source=BATMAN01\\SQLEXPRESS01;Initial Catalog=EleccionesSD;Integrated Security=True;");
+        public SqlConnection Conexion = new SqlConnection("Data Source=DESKTOP-U1OLQL1\\SQLEXPRESS;Initial Catalog=EleccionesSD;Integrated Security=True;");
 
         public SqlConnection AbrirConexion()
         {

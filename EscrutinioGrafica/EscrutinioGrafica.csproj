@@ -72,6 +72,7 @@
     <Compile Include="RegistroDatosForm.Designer.cs">
       <DependentUpon>RegistroDatosForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UtilidadesProtocolo.cs" />
     <EmbeddedResource Include="AsignacionMesaForm.resx">
       <DependentUpon>AsignacionMesaForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,9 +128,9 @@
       <Project>{a1db91e5-60f2-40d2-b87b-39e3a5f4e08d}</Project>
       <Name>Entidades</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Negocio\Negocio.csproj">
-      <Project>{bdc4dd83-4caf-42b4-8897-6a4639476e53}</Project>
-      <Name>Negocio</Name>
+    <ProjectReference Include="..\Servidor\ServidorTCP.csproj">
+      <Project>{cb4f40f6-7ad7-45b2-a03f-eabbe93af8a2}</Project>
+      <Name>ServidorTCP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

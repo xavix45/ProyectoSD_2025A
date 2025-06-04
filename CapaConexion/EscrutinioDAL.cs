@@ -514,6 +514,37 @@ namespace CapaConexion
             return votos;
         }
 
+        public int ObtenerVotantes(int idMesa)
+        {
+            int votantes = 0;
+
+            try
+            {
+                string consulta = "SELECT Votantes FROM Mesa WHERE IdMesa = @IdMesa";
+                comando.Connection = conexion.AbrirConexion();
+                comando.Parameters.Clear();
+                comando.CommandText = consulta;
+                comando.Parameters.AddWithValue("@IdMesa", idMesa);
+
+                object resultado = comando.ExecuteScalar();
+                if (resultado != null && resultado != DBNull.Value)
+                {
+                    votantes = Convert.ToInt32(resultado);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DAL] Error al obtener el número de votantes: {ex.Message}");
+            }
+            finally
+            {
+                conexion.CerrarConexion();
+            }
+
+            return votantes;
+        }
+
+
 
     }
 }

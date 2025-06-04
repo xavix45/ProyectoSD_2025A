@@ -7,99 +7,85 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Negocio;
 using Entidades;
 
 namespace EscrutinioGrafica
 {
     public partial class CerrarMesaForm : Form
     {
-        private EscrutinioCN escrutinioCN = new EscrutinioCN();
-        List<string> listaVacia = new List<string>();
+        private Escrutinio padre;              // Referencia al formulario principal para usar conexión persistente
+        List<Localidad> localidades;
+        List<Mesa> mesasPorLocalidad;
 
-        public CerrarMesaForm()
+        // Constructor modificado para recibir referencia al formulario principal
+        public CerrarMesaForm(Escrutinio formularioPadre)
         {
             InitializeComponent();
+            padre = formularioPadre;
         }
 
+        // Evento carga del formulario
+        private void CerrarMesaForm_Load(object sender, EventArgs e)
+        {
+            CargarLocalidades();
+        }
+
+        // Obtiene localidades desde servidor usando conexión persistente
+        private void CargarLocalidades()
+        {
+            string respuesta = padre.EnviarComando("OBTENERLOCALIDADES");
+            localidades = UtilidadesProtocolo.DeserializarLocalidades(respuesta);
+            cmbLocalidad.DataSource = localidades;
+            cmbLocalidad.DisplayMember = "Nombre";
+            cmbLocalidad.ValueMember = "IdLocalidad";
+        }
+
+        // Evento cambio selección localidad
+        private void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLocalidad.SelectedItem == null) return;
+
+            int idLocalidad = ((Localidad)cmbLocalidad.SelectedItem).IdLocalidad;
+            string comando = $"OBTENERMESASPORLOCALIDAD|{idLocalidad}";
+            string respuesta = padre.EnviarComando(comando);
+            mesasPorLocalidad = UtilidadesProtocolo.DeserializarMesas(respuesta);
+
+            cmbNumeroMesa.DataSource = mesasPorLocalidad;
+            cmbNumeroMesa.DisplayMember = "NumeroMesa";
+            cmbNumeroMesa.ValueMember = "IdMesa";
+        }
+
+        // Botón para cerrar la mesa seleccionada
+        private void btnCerrarMesa_Click(object sender, EventArgs e)
+        {
+            if (cmbNumeroMesa.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione una mesa.");
+                return;
+            }
+
+            int idMesa = ((Mesa)cmbNumeroMesa.SelectedItem).IdMesa;
+            string comando = $"CIERREMESA|{idMesa}";
+
+            // Enviar comando para cerrar la mesa
+            string respuesta = padre.EnviarComando(comando);
+
+            if (respuesta == "OK")
+            {
+                MessageBox.Show("Mesa cerrada correctamente.");
+            }
+            else
+            {
+                MessageBox.Show($"Error al cerrar mesa: {respuesta}");
+            }
+        }
+
+        // Botón cancelar/cerrar ventana
         private void btnCerrarVentana_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        private void CerrarMesaForm_Load(object sender, EventArgs e)
-        {
-            cargarLocalidad();
-        }
-
-        private void cmbLocalidad_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Localidad localidad = cmbLocalidad.SelectedItem as Localidad;
-
-            cargarMesaPorLocalidad(localidad.IdLocalidad);
-        }
-
-        private void btnCerrarMesa_Click(object sender, EventArgs e)
-        {
-            Mesa mesa = cmbNumeroMesa.SelectedItem as Mesa;
-            if (mesa == null)
-            {
-                MessageBox.Show("Seleccione una mesa válida.", "Cierre de mesa");
-                return;
-            }
-
-            // Verificar si la mesa ya está cerrada
-            if (escrutinioCN.EstaMesaCerrada(mesa.IdMesa))
-            {
-                MessageBox.Show("Esta mesa ya está cerrada.", "Cierre de mesa");
-                return;
-            }
-
-            // Confirmar con el usuario
-            DialogResult resultado = MessageBox.Show("¿Seguro quieres cerrar la mesa?", "Cierre de mesa", MessageBoxButtons.OKCancel);
-            if (resultado != DialogResult.OK)
-                return;
-
-            try
-            {
-                // Intentar cerrar la mesa, la función debe devolver string con resultado (OK, ERROR, CERRADA)
-                string respuesta = escrutinioCN.CerrarMesa(mesa.IdMesa);
-
-                if (respuesta == "OK")
-                {
-                    MessageBox.Show("La mesa se cerró correctamente.", "Cierre de mesa");
-                    // Aquí puedes actualizar UI, recargar lista, etc.
-                }
-                else if (respuesta == "CERRADA")
-                {
-                    MessageBox.Show("La mesa ya estaba cerrada previamente.", "Cierre de mesa");
-                }
-                else if (respuesta.StartsWith("ERROR"))
-                {
-                    MessageBox.Show($"No se pudo cerrar la mesa: {respuesta}", "Error");
-                }
-                else
-                {
-                    MessageBox.Show($"Respuesta inesperada del servidor: {respuesta}", "Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cerrar la mesa: {ex.Message}", "Error");
-            }
-        }
-
-
-        private void cargarLocalidad()
-        {
-            cmbLocalidad.DataSource = listaVacia;
-            cmbLocalidad.DataSource = escrutinioCN.ObtenerLocalidades();
-        }
-
-        private void cargarMesaPorLocalidad(int idLocalidad) 
-        {
-            cmbNumeroMesa.DataSource = listaVacia;
-            cmbNumeroMesa.DataSource = escrutinioCN.ObtenerMesasPorLocalidad(idLocalidad);
-        }
     }
+
+
 }
